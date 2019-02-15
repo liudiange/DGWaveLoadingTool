@@ -11,6 +11,8 @@
 
 @interface ViewController ()
 
+@property (nonatomic,strong) DGWaveLoadingView *loadingView;
+
 @end
 
 @implementation ViewController
@@ -18,11 +20,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [DGWaveLoadingView showLoadingTitle:@"R D" inView:self.view];
-    
-    
     
 }
 
+/**
+ 开始动画
+
+ @param sender 按钮
+ */
+- (IBAction)shouAaimation:(UIButton *)sender {
+    self.loadingView = [DGWaveLoadingView showLoadingTitle:@"RD" inView:self.view];
+}
+
+/**
+ 改变文字
+
+ @param sender 按钮
+ */
+- (IBAction)changeText:(UIButton *)sender {
+    self.loadingView = [DGWaveLoadingView showLoadingTitle:@"AB" inView:self.view];
+}
+
+/**
+ 停止动画
+
+ @param sender 按钮
+ */
+- (IBAction)stopAnimation:(UIButton *)sender {
+    [self.loadingView hideLoading];
+}
 
 @end

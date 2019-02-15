@@ -28,36 +28,46 @@
 @property (assign, nonatomic) CGFloat waveMoveSpeed;
 /** 白底蓝字 */
 @property (strong, nonatomic) UIImageView *blueImageView;
-/** 蓝底白字 */
-@property (strong, nonatomic) UIImageView *whiteImageView;
 /** 动画的容器 */
 @property (strong, nonatomic) UIView *containerView;
-/** 需要显示的文字 */
-@property (copy, nonatomic) NSString *displayTitle;
+
 
 @end
 @implementation DGWaveLoadingView
+
+static NSString *displayTitle_ = nil;
+
 #pragma mark - 供外界调用的方法
 /**
  在哪个view上来进行显示动画
  
  @param title 标题（不能超过）
  @param atView 需要在哪个view上进行显示
+ @return 对象本身
  */
-+ (void)showLoadingTitle:(NSString *)title
+
++ (DGWaveLoadingView *)showLoadingTitle:(NSString *)title
                   inView:(UIView *)atView{
     NSAssert(title.length <= 3, @"对不起文字输入过多了兄弟，字符串的长度不能大于2奥");
-    [[NSUserDefaults standardUserDefaults] setObject:title forKey:DGContainerTitleKey];
+    displayTitle_ = title;
     
     DGWaveLoadingView *waveLoadingView = [[DGWaveLoadingView alloc] initWithFrame:atView.bounds];
     [atView addSubview:waveLoadingView];
     [waveLoadingView bringSubviewToFront:atView];
     
+    return waveLoadingView;
 }
 /**
  隐藏动画
  */
 - (void)hideLoading{
+    
+    if (self.link) {
+        [self.link invalidate];
+        self.link = nil;
+    }
+    displayTitle_ = nil;
+    [self removeFromSuperview];
     
 }
 #pragma mark - 本身需要实现的方法
@@ -75,7 +85,6 @@
  */
 -(void)setUpUI{
     
-    self.displayTitle = [[NSUserDefaults standardUserDefaults] objectForKey:DGContainerTitleKey];
     // 创建容器的view
     self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DGContainerViewW, DGContainerViewW)];
     self.containerView.center = CGPointMake(self.frame.size.width * 0.5, self.frame.size.height * 0.5);
@@ -88,8 +97,9 @@
                          NSFontAttributeName : [UIFont systemFontOfSize:60],
                          NSForegroundColorAttributeName : [UIColor blueColor]
                          };
-    UIImage *bottomImage = [DGWaveLoadingView imageWithColor:[UIColor clearColor] size:self.containerView.frame.size text:self.displayTitle textAttributes:dic circular:YES];
+    UIImage *bottomImage = [DGWaveLoadingView imageWithColor:[UIColor clearColor] size:self.containerView.frame.size text:displayTitle_ textAttributes:dic circular:YES];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.containerView.bounds];
+    imageView.backgroundColor = [UIColor whiteColor];
     imageView.image = bottomImage;
     [self.containerView addSubview:imageView];
     
@@ -98,30 +108,54 @@
                           NSFontAttributeName : [UIFont systemFontOfSize:60],
                           NSForegroundColorAttributeName : [UIColor whiteColor]
                           };
-    UIImage *blueImage1 = [DGWaveLoadingView imageWithColor:[UIColor blueColor] size:self.containerView.frame.size text:self.displayTitle textAttributes:blueDic1 circular:YES];
+    UIImage *blueImage1 = [DGWaveLoadingView imageWithColor:[UIColor blueColor] size:self.containerView.frame.size text:displayTitle_ textAttributes:blueDic1 circular:YES];
     self.blueImageView = [[UIImageView alloc] initWithFrame:self.containerView.bounds];
     self.blueImageView.image = blueImage1;
+    self.blueImageView.backgroundColor = [UIColor blueColor];
     [self.containerView addSubview:self.blueImageView];
-    // 创建遮罩
-    UIView *maskView = [[UIView alloc] initWithFrame:self.blueImageView.frame];
-    maskView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
-    [self.blueImageView addSubview:maskView];
-    
-    // 创建第三张图片 蓝底白字
-    NSDictionary *blueDic2 = @{
-                              NSFontAttributeName : [UIFont systemFontOfSize:60],
-                              NSForegroundColorAttributeName : [UIColor whiteColor]
-                              };
-    UIImage *blueImage2 = [DGWaveLoadingView imageWithColor:[UIColor blueColor] size:self.containerView.frame.size text:self.displayTitle textAttributes:blueDic2 circular:YES];
-    self.blueImageView = [[UIImageView alloc] initWithFrame:self.containerView.bounds];
-    self.blueImageView.image = blueImage2;
-    [self.containerView addSubview:self.blueImageView];
-    
 }
 /**
  设置数据的初始值相关
  */
 - (void)configData{
+    self.waveAmpliteude = 6;
+    self.wavePalstance = 0.08;
+    self.waveY = self.containerView.frame.size.height * 0.5;
+    self.waveX = 0;
+    self.waveMoveSpeed = 0.15;
+    
+    self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateWave)];
+    [self.link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    
+}
+/**
+ 定时器的方法
+ */
+- (void)updateWave{
+    self.waveX -= self.waveMoveSpeed;
+    [self beginWave];
+}
+/**
+ 开始波浪相关的动画
+ */
+- (void)beginWave{
+    
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, nil, 0, self.waveY);
+    // 指函数y=Asin(ωx+φ)+k(其中A，ω，φ均为常数，且A>0，ω>0)。这里A称为振幅，ω称为圆频率或角频率，φ称为初相位或初相角，正弦型函数y=Asin(ωx+φ)是周期函数，其周期为2π/ω
+    CGFloat y = 0;
+    for (float x = 0.0; x < self.containerView.frame.size.width; x++) {
+        y = self.waveAmpliteude * sin(self.wavePalstance*x + self.waveX +1 ) + self.waveY;
+        CGPathAddLineToPoint(path, nil, x, y);
+    }
+    CGPathAddLineToPoint(path, nil, self.containerView.frame.size.width, self.containerView.frame.size.height);
+    CGPathAddLineToPoint(path, nil, 0, self.containerView.frame.size.height);
+    CGPathCloseSubpath(path);
+    
+    CAShapeLayer *shapelayer = [CAShapeLayer layer];
+    shapelayer.path = path;
+    self.blueImageView.layer.mask = shapelayer;
+    CGPathRelease(path);
     
 }
 #pragma mark - 其他的方法的响应

@@ -12,18 +12,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DGWaveLoadingView : UIView
 
+
 /**
  在哪个view上来进行显示动画
-
+ 
  @param title 标题（不能超过）
  @param atView 需要在哪个view上进行显示
+ @return 对象本身
  */
-+ (void)showLoadingTitle:(NSString *)title
++ (DGWaveLoadingView *)showLoadingTitle:(NSString *)title
                   inView:(UIView *)atView;
 /**
  隐藏动画
  */
-+ (void)hideLoading;
+- (void)hideLoading;
 
 @end
 
