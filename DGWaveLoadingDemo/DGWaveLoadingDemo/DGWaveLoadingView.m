@@ -51,7 +51,7 @@ static NSString *displayTitle_ = nil;
     NSAssert(title.length <= 3, @"对不起文字输入过多了兄弟，字符串的长度不能大于2奥");
     displayTitle_ = title;
     
-    DGWaveLoadingView *waveLoadingView = [[DGWaveLoadingView alloc] initWithFrame:atView.bounds];
+    DGWaveLoadingView *waveLoadingView = [[DGWaveLoadingView alloc] initWithFrame:CGRectMake((atView.frame.size.width -DGContainerViewW) *0.5, (atView.frame.size.height -DGContainerViewW) *0.5, DGContainerViewW, DGContainerViewW)];
     [atView addSubview:waveLoadingView];
     [waveLoadingView bringSubviewToFront:atView];
     

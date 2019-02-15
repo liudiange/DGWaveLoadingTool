@@ -28,7 +28,7 @@
 
  @param sender 按钮
  */
-- (IBAction)shouAaimation:(UIButton *)sender {
+- (IBAction)showAaimation:(UIButton *)sender {
     self.loadingView = [DGWaveLoadingView showLoadingTitle:@"RD" inView:self.view];
 }
 
