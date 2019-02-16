@@ -7,6 +7,7 @@
 //
 
 #import "DGWaveLoadingView.h"
+#import "DGLinkProxy.h"
 #import <objc/message.h>
 
 
@@ -63,7 +64,7 @@ static NSString *displayTitle_ = nil;
     
     DGWaveLoadingView *waveLoadingView = [[DGWaveLoadingView alloc] initWithFrame:CGRectMake((atView.frame.size.width -DGContainerViewW) *0.5, (atView.frame.size.height -DGContainerViewW) *0.5, DGContainerViewW, DGContainerViewW)];
     [atView addSubview:waveLoadingView];
-    [waveLoadingView bringSubviewToFront:atView];
+   // [waveLoadingView bringSubviewToFront:atView];
     
     return waveLoadingView;
 }
@@ -134,7 +135,7 @@ static NSString *displayTitle_ = nil;
     self.waveX = 0;
     self.waveMoveSpeed = 0.15;
     
-    self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateWave)];
+    self.link = [CADisplayLink displayLinkWithTarget:[DGLinkProxy initWithTarget:self] selector:@selector(updateWave)];
     [self.link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
 }
@@ -209,6 +210,10 @@ static NSString *displayTitle_ = nil;
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
+}
+-(void)dealloc{
+    NSLog(@"%s",__func__);
+    [self.link invalidate];
 }
 
 @end
