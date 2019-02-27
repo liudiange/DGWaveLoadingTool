@@ -19,7 +19,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 500)];
+    redView.backgroundColor = [UIColor redColor];
+    [self.view addSubview:redView];
+    
 }
 
 - (IBAction)showAnimation:(UIButton *)sender {
