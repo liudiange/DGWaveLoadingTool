@@ -64,7 +64,6 @@ static NSString *displayTitle_ = nil;
     
     DGWaveLoadingView *waveLoadingView = [[DGWaveLoadingView alloc] initWithFrame:CGRectMake((atView.frame.size.width -DGContainerViewW) *0.5, (atView.frame.size.height -DGContainerViewW) *0.5, DGContainerViewW, DGContainerViewW)];
     [atView addSubview:waveLoadingView];
-    [waveLoadingView bringSubviewToFront:atView];
     return waveLoadingView;
 }
 /**
