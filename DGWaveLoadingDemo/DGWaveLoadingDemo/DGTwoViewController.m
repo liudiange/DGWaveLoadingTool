@@ -29,7 +29,7 @@
 }
 - (IBAction)hideAnimation:(UIButton *)sender {
     
-   [self.loadingView hideLoading];
+   [DGWaveLoadingView hideLoadingAtView:self.view];
     
 }
 -(void)dealloc{

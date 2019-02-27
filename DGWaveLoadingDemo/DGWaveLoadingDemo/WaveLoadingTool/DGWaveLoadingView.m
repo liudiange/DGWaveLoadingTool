@@ -49,7 +49,7 @@ static NSString *displayTitle_ = nil;
 
 + (DGWaveLoadingView *)showLoadingTitle:(NSString *)title
                   inView:(UIView *)atView{
-    NSAssert(title.length <= 3, @"对不起文字输入过多了兄弟，字符串的长度不能大于2奥");
+    NSAssert(title.length <= 2, @"对不起文字输入过多了兄弟，字符串的长度不能大于2奥");
     displayTitle_ = title;
     
     NSMutableArray *loadingViewArray = [NSMutableArray array];
@@ -64,8 +64,7 @@ static NSString *displayTitle_ = nil;
     
     DGWaveLoadingView *waveLoadingView = [[DGWaveLoadingView alloc] initWithFrame:CGRectMake((atView.frame.size.width -DGContainerViewW) *0.5, (atView.frame.size.height -DGContainerViewW) *0.5, DGContainerViewW, DGContainerViewW)];
     [atView addSubview:waveLoadingView];
-   // [waveLoadingView bringSubviewToFront:atView];
-    
+    [waveLoadingView bringSubviewToFront:atView];
     return waveLoadingView;
 }
 /**
@@ -79,7 +78,26 @@ static NSString *displayTitle_ = nil;
     }
     displayTitle_ = nil;
     [self removeFromSuperview];
+}
+/**
+ 隐藏动画
+ 
+ @param atView 在a那个views上开始隐藏
+ */
++ (void)hideLoadingAtView:(UIView *)atView{
     
+    NSMutableArray *temViewArray = [NSMutableArray array];
+    NSEnumerator *enumerator = [atView.subviews reverseObjectEnumerator];
+    
+    for (UIView *sonView in enumerator) {
+        if ([sonView isKindOfClass:[DGWaveLoadingView class]]) {
+            [temViewArray addObject:sonView];
+        }
+    }
+    for (DGWaveLoadingView *loadingView in temViewArray) {
+        [loadingView removeFromSuperview];
+    }
+    temViewArray = nil;
 }
 #pragma mark - 本身需要实现的方法
 

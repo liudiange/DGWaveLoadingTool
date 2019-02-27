@@ -27,6 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)hideLoading;
 
+/**
+ 隐藏动画
+
+ @param atView 在a那个views上开始隐藏
+ */
++ (void)hideLoadingAtView:(UIView *)atView;
+
 @end
 
 NS_ASSUME_NONNULL_END
