@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		182AA35322266E8900B31792 /* 1.GIF in Resources */ = {isa = PBXBuildFile; fileRef = 182AA35222266E8900B31792 /* 1.GIF */; };
+		182AA35522267B6600B31792 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 182AA35422267B6600B31792 /* 2.png */; };
 		18BDB6002216A761008CFB9F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BDB5FF2216A761008CFB9F /* AppDelegate.m */; };
 		18BDB6032216A761008CFB9F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BDB6022216A761008CFB9F /* ViewController.m */; };
 		18BDB6062216A761008CFB9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18BDB6042216A761008CFB9F /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		182AA35222266E8900B31792 /* 1.GIF */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 1.GIF; sourceTree = "<group>"; };
+		182AA35422267B6600B31792 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
 		18BDB5FB2216A761008CFB9F /* DGWaveLoadingDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DGWaveLoadingDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18BDB5FE2216A761008CFB9F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		18BDB5FF2216A761008CFB9F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 		18BDB5FD2216A761008CFB9F /* DGWaveLoadingDemo */ = {
 			isa = PBXGroup;
 			children = (
+				182AA35422267B6600B31792 /* 2.png */,
 				182AA35222266E8900B31792 /* 1.GIF */,
 				18BDB5FE2216A761008CFB9F /* AppDelegate.h */,
 				18BDB5FF2216A761008CFB9F /* AppDelegate.m */,
@@ -156,6 +159,7 @@
 			files = (
 				18BDB60B2216A765008CFB9F /* LaunchScreen.storyboard in Resources */,
 				18BDB6082216A765008CFB9F /* Assets.xcassets in Resources */,
+				182AA35522267B6600B31792 /* 2.png in Resources */,
 				182AA35322266E8900B31792 /* 1.GIF in Resources */,
 				18BDB6062216A761008CFB9F /* Main.storyboard in Resources */,
 			);
